@@ -2,10 +2,9 @@
 
 CLI for playing a games of Dominos 
 
-Specify number of players as cmd argument, e.g.
-./dominos --players=4
+Specify number of players (default is 2) as cmd argument, e.g.
 
-or use default of 2 players
+    ./dominos --players=4
 
 First enter name of each player
 Pick first 7 dominos anonymously from a table of 28
