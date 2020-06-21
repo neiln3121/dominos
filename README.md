@@ -14,7 +14,7 @@ Each player takes turn to either play one of their dominos or pick up another do
 When playing a domino, the player must first pick the domino, using the ID and then specify which end of the board to play it.
 The current board is displayed as a list of paired numbers, see example.
 
-Current board:
+Current board:&nbsp;
 \-------------&nbsp;
 
   <-[0|0]-[0|4]-[4|4]-[4|6]-[6|6]-[6|3]-[3|3]-[3|2]-[2|2]-[2|4]->
