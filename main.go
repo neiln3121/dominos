@@ -29,7 +29,7 @@ func main() {
 
 	dominoGame := game.NewGame(*noOfPlayers)
 	fmt.Println("Preparing Game")
-	delivery.GetPlayersReady(dominoGame)
+	delivery.SelectInitialDominos(dominoGame)
 
 	fmt.Println("Starting Game")
 	err := dominoGame.StartGame()
@@ -38,8 +38,7 @@ func main() {
 	}
 
 	for !dominoGame.IsFinished() {
-		dominoGame.SetNextPlayer()
-		delivery.ChooseOption(dominoGame)
+		delivery.SelectOption(dominoGame)
 	}
 	winnerID, winnerTotal := dominoGame.GetWinner()
 	fmt.Printf("WINNER: Player %d with %d score\n\n", winnerID, winnerTotal)

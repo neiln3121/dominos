@@ -1,8 +1,8 @@
 # Dominos
-Dominos game as a web app
+
+CLI for playing domino - the UI is a little rough and more a POC than production ready.
 
 Here are the rules of the game:
-
 
 - It's played by a minimum of 2 players and a max of 4
 
@@ -20,4 +20,3 @@ Here are the rules of the game:
 
 - If both players still have pieces in the end, the winner is the one with the least total dots. These are calculated by adding the dots from all the pieces in the player's hand.
 
- 

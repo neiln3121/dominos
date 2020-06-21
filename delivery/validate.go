@@ -4,14 +4,13 @@ import (
 	"fmt"
 
 	"github.com/neiln3121/dominos/game"
-	"github.com/neiln3121/dominos/models"
 )
 
-// GameFunc - type for closure to be used with RepeatUntilNoError func
-type GameFunc func(*game.Game, int) (bool, error)
+// gameFunc - type for closure to be used with RepeatUntilNoError func
+type gameFunc func(*game.Game, int) (bool, error)
 
-// RepeatUntilNoError - Keeps reading input until a valid response us entered
-func RepeatUntilNoError(fn GameFunc, current *game.Game, playerIndex int) bool {
+// repeatUntilNoError - Keeps reading input until a valid response us entered
+func repeatUntilNoError(fn gameFunc, current *game.Game, playerIndex int) bool {
 	var err error
 	var result bool
 	// Keep going until no error
@@ -72,18 +71,4 @@ func choosePlay(current *game.Game, playerIndex int) (bool, error) {
 	}
 
 	return true, nil
-}
-
-func chooseUnpickedDominos(current *game.Game, player *models.Player) bool {
-	fmt.Print(showUnpickedDominos(current.GetTable()))
-	fmt.Printf("Player %d\n", player.ID)
-	return RepeatUntilNoError(choosePickup, current, player.ID-1)
-}
-
-func chooseDominoToPlay(current *game.Game, player *models.Player) bool {
-	fmt.Println(showBoard(current.GetBoard()))
-	fmt.Println(showPlayerDominos(player))
-
-	fmt.Printf("Player %d\n", player.ID)
-	return RepeatUntilNoError(choosePlay, current, player.ID-1)
 }

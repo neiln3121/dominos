@@ -4,10 +4,11 @@ import (
 	"fmt"
 
 	"github.com/neiln3121/dominos/game"
+	"github.com/neiln3121/dominos/models"
 )
 
-// ChooseOption - Cycle through options for current game player
-func ChooseOption(current *game.Game) error {
+// SelectOption - Cycle through options for current game player
+func SelectOption(current *game.Game) error {
 	var picked int
 	var err error
 	var success bool
@@ -39,8 +40,8 @@ func ChooseOption(current *game.Game) error {
 	return nil
 }
 
-// GetPlayersReady - Get all players to pickup their initial dominos
-func GetPlayersReady(current *game.Game) {
+// SelectInitialDominos - Get all players by picking up their initial dominos
+func SelectInitialDominos(current *game.Game) {
 	var allPlayersReady int
 	// Keep going until all players have the right amount of dominos
 	for allPlayersReady < current.GetNumberOfPlayers() {
@@ -56,4 +57,18 @@ func GetPlayersReady(current *game.Game) {
 			}
 		}
 	}
+}
+
+func chooseUnpickedDominos(current *game.Game, player *models.Player) bool {
+	fmt.Print(showUnpickedDominos(current.GetTable()))
+	fmt.Printf("Player %d\n", player.ID)
+	return repeatUntilNoError(choosePickup, current, player.ID-1)
+}
+
+func chooseDominoToPlay(current *game.Game, player *models.Player) bool {
+	fmt.Println(showBoard(current.GetBoard()))
+	fmt.Println(showPlayerDominos(player))
+
+	fmt.Printf("Player %d\n", player.ID)
+	return repeatUntilNoError(choosePlay, current, player.ID-1)
 }

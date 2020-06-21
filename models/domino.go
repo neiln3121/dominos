@@ -1,6 +1,8 @@
 package models
 
-import "fmt"
+import (
+	"errors"
+)
 
 // DOTS - max number of dots on each domino half
 const DOTS int = 6
@@ -19,12 +21,10 @@ func (d *Domino) Total() int {
 
 // Set - sets the number of dots on each domino half
 func (d *Domino) Set(head, tail int) error {
-	if head > DOTS || head < 0 {
-		return fmt.Errorf("Invalid value for domino: %d", head)
+	if head > DOTS || head < 0 || tail > DOTS || tail < 0 {
+		return errors.New("Invalid value for domino half")
 	}
-	if tail > DOTS || tail < 0 {
-		return fmt.Errorf("Invalid value for domino: %d", tail)
-	}
+
 	d.Half[0] = head
 	d.Half[1] = tail
 

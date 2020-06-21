@@ -29,7 +29,7 @@ func (b *Board) PlayDomino(domino *Domino, atHead bool) error {
 	}
 
 	if result == -1 {
-		return errors.New("Invalid move")
+		return errors.New("Invalid Move")
 	}
 	return nil
 }

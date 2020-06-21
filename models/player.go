@@ -44,6 +44,16 @@ func (p *Player) GetHighestDouble() (highest, index int) {
 	return
 }
 
+func (p *Player) CanProceed(head, tail int) bool {
+	for _, domino := range p.GetDominos() {
+		if domino.Half[0] == head || domino.Half[0] == tail ||
+			domino.Half[1] == head || domino.Half[1] == tail {
+			return true
+		}
+	}
+	return false
+}
+
 func (p *Player) Get(index int) (*Domino, error) {
 	if !p.HasDomino(index) {
 		return nil, errors.New("Player does not have that domino")

@@ -40,14 +40,6 @@ func (g *Game) StartGame() error {
 	return nil
 }
 
-// SetNextPlayer - sets the next player to play a round
-func (g *Game) SetNextPlayer() {
-	g.currentPlayerIndex++
-	if g.currentPlayerIndex >= len(g.players) {
-		g.currentPlayerIndex = 0
-	}
-}
-
 // IsFinished - checks whether anyone has one or if everyone can proceed
 func (g *Game) IsFinished() bool {
 	if g.GetCurrentPlayer().DominoCount() == 0 {
@@ -56,23 +48,11 @@ func (g *Game) IsFinished() bool {
 		return true
 	}
 
-	if g.table.AllPicked() {
-		canProceed := false
-		playersCanProceed := 0
-		for _, player := range g.players {
-			for _, domino := range player.GetDominos() {
-				if domino.Half[0] == g.board.GetHead() || domino.Half[0] == g.board.GetTail() ||
-					domino.Half[1] == g.board.GetHead() || domino.Half[1] == g.board.GetTail() {
-					canProceed = true
-					break
-				}
-			}
-			if canProceed {
-				playersCanProceed++
-			}
-		}
+	g.setNextPlayer()
 
-		if playersCanProceed != len(g.players) {
+	if g.table.AllPicked() {
+		// if current player can't proceed, end game
+		if !g.GetCurrentPlayer().CanProceed(g.board.GetHead(), g.board.GetTail()) {
 			minDots := 48
 			for _, player := range g.players {
 				playerDots := player.TotalDots()
@@ -144,6 +124,14 @@ func (g *Game) GetTable() *models.Table {
 // GetBoard - get the board to play dominos onto
 func (g *Game) GetBoard() *models.Board {
 	return g.board
+}
+
+// SetNextPlayer - sets the next player to play a round
+func (g *Game) setNextPlayer() {
+	g.currentPlayerIndex++
+	if g.currentPlayerIndex >= len(g.players) {
+		g.currentPlayerIndex = 0
+	}
 }
 
 // NewGame - new instance
