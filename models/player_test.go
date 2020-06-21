@@ -12,7 +12,7 @@ func Test_AddDomino(t *testing.T) {
 	err := domino.Set(1, 1)
 	assert.NoError(t, err)
 
-	player := models.NewPlayer(1)
+	player := models.NewPlayer()
 
 	player.AddDomino(domino)
 	assert.Equal(t, 1, player.DominoCount())
@@ -45,7 +45,7 @@ func Test_RemoveDomino(t *testing.T) {
 	err = domino3.Set(4, 4)
 	assert.NoError(t, err)
 
-	player := models.NewPlayer(1)
+	player := models.NewPlayer()
 	player.AddDomino(domino1)
 	player.AddDomino(domino2)
 	player.AddDomino(domino3)
@@ -75,7 +75,7 @@ func Test_GetHighestDouble(t *testing.T) {
 	err = domino3.Set(4, 4)
 	assert.NoError(t, err)
 
-	player := models.NewPlayer(1)
+	player := models.NewPlayer()
 	player.AddDomino(domino1)
 	player.AddDomino(domino2)
 	player.AddDomino(domino3)
@@ -103,7 +103,7 @@ func Test_CanProceed(t *testing.T) {
 	err = domino3.Set(4, 4)
 	assert.NoError(t, err)
 
-	player := models.NewPlayer(1)
+	player := models.NewPlayer()
 	player.AddDomino(domino1)
 	player.AddDomino(domino2)
 	player.AddDomino(domino3)
@@ -131,7 +131,7 @@ func Test_TotalDots(t *testing.T) {
 	err = domino3.Set(4, 4)
 	assert.NoError(t, err)
 
-	player := models.NewPlayer(1)
+	player := models.NewPlayer()
 	player.AddDomino(domino1)
 	assert.Equal(t, 2, player.TotalDots())
 

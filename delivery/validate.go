@@ -7,15 +7,15 @@ import (
 )
 
 // gameFunc - type for closure to be used with RepeatUntilNoError func
-type gameFunc func(*game.Game, int) (bool, error)
+type gameFunc func(*game.Game) (bool, error)
 
 // repeatUntilNoError - Keeps reading input until a valid response us entered
-func repeatUntilNoError(fn gameFunc, current *game.Game, playerIndex int) bool {
+func repeatUntilNoError(fn gameFunc, current *game.Game) bool {
 	var err error
 	var result bool
 	// Keep going until no error
 	for {
-		result, err = fn(current, playerIndex)
+		result, err = fn(current)
 		if err != nil {
 			fmt.Printf("ERROR! - %v\n\n", err)
 		} else {
@@ -25,7 +25,7 @@ func repeatUntilNoError(fn gameFunc, current *game.Game, playerIndex int) bool {
 	return result
 }
 
-func vaidatePickup(current *game.Game, playerIndex int) (bool, error) {
+func vaidatePickup(current *game.Game) (bool, error) {
 	var picked int
 
 	fmt.Printf("Pick a domino or 0 to return\n-> ")
@@ -36,7 +36,7 @@ func vaidatePickup(current *game.Game, playerIndex int) (bool, error) {
 	if picked == 0 {
 		return false, nil
 	}
-	err = current.PickDomino(playerIndex, picked)
+	err = current.PickDomino(picked)
 	if err != nil {
 		return false, err
 	}
@@ -44,7 +44,7 @@ func vaidatePickup(current *game.Game, playerIndex int) (bool, error) {
 	return true, nil
 }
 
-func validatePlay(current *game.Game, playerIndex int) (bool, error) {
+func validatePlay(current *game.Game) (bool, error) {
 	var picked int
 	var end int
 
@@ -65,7 +65,7 @@ func validatePlay(current *game.Game, playerIndex int) (bool, error) {
 		return false, fmt.Errorf("Invalid end: must be 1 or 2")
 	}
 
-	err = current.PlayDomino(playerIndex, picked, end == 1)
+	err = current.PlayDomino(picked, end == 1)
 	if err != nil {
 		return false, err
 	}

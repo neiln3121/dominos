@@ -10,7 +10,7 @@ import (
 func initPlayers(noOfPlayers int) []*models.Player {
 	players := make([]*models.Player, noOfPlayers)
 	for i := 0; i < noOfPlayers; i++ {
-		players[i] = models.NewPlayer(i)
+		players[i] = models.NewPlayer()
 	}
 	return players
 }

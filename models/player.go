@@ -4,12 +4,12 @@ import (
 	"errors"
 )
 
-// MAXDOMINOS - maximum number of dominos a player can have
-const MAXDOMINOS int = 7
+// STARTING_DOMINOS - number of dominos a player should start with
+const STARTING_DOMINOS int = 7
 
 // Player - stores detaisl for a game participant
 type Player struct {
-	ID      int
+	Name    string
 	dominos []*Domino
 }
 
@@ -70,7 +70,7 @@ func (p *Player) GetDominos() []*Domino {
 }
 
 func (p *Player) HasStartingDominos() bool {
-	return p.DominoCount() == MAXDOMINOS
+	return p.DominoCount() == STARTING_DOMINOS
 }
 
 func (p *Player) DominoCount() int {
@@ -93,7 +93,7 @@ func (p *Player) HasDomino(index int) bool {
 }
 
 // NewPlayer - new instance
-func NewPlayer(index int) *Player {
+func NewPlayer() *Player {
 	dominos := new([]*Domino)
-	return &Player{ID: index + 1, dominos: *dominos}
+	return &Player{dominos: *dominos}
 }

@@ -4,70 +4,70 @@ import (
 	"fmt"
 
 	"github.com/neiln3121/dominos/game"
-	"github.com/neiln3121/dominos/models"
 )
 
 // SelectOption - Cycle through options for current game player
-func SelectOption(current *game.Game) error {
+func SelectOption(current *game.Game) {
 	var picked int
-	var err error
 	var success bool
 
 	for !success {
 		fmt.Println(showBoard(current.GetBoard()))
 		player := current.GetCurrentPlayer()
+		fmt.Printf("Player %s\n", player.Name)
 		fmt.Println(showPlayerDominos(player))
-		fmt.Printf("Player %d\n", player.ID)
 
 		fmt.Print("Pick a option\n1: Play\n2: Pick up\n-> ")
-		_, err = fmt.Scan(&picked)
+		_, err := fmt.Scan(&picked)
 		if err != nil {
-			return err
+			fmt.Printf("%v\n", err)
+			continue
 		}
 		if picked < 1 || picked > 2 {
 			fmt.Printf("Invalid option: must be 1 or 2\n\n")
 			continue
 		}
 		if picked == 1 {
-			success = chooseDominoToPlay(current, player)
+			success = chooseDominoToPlay(current)
 		}
 		if picked == 2 {
-			success = chooseUnpickedDominos(current, player)
+			success = chooseUnpickedDominos(current)
 		}
 	}
 	fmt.Println("\nSuccess!")
 	fmt.Println(showBreak())
+}
+
+// SelectPlayerNames - Set the player names
+func SelectPlayerNames(current *game.Game) error {
+	for i, player := range current.GetPlayers() {
+		fmt.Printf("Pick a name for Player %d-> ", i+1)
+		_, err := fmt.Scan(&player.Name)
+		if err != nil {
+			return err
+		}
+	}
+	fmt.Println("\nDone!")
+	fmt.Println(showBreak())
 	return nil
 }
 
-// SelectInitialDominos - Get all players by picking up their initial dominos
+// SelectInitialDominos - Set up all players by picking up their initial dominos
 func SelectInitialDominos(current *game.Game) {
-	var allPlayersReady int
-	// Keep going until all players have the right amount of dominos
-	for allPlayersReady < len(current.GetPlayers()) {
-		// Set back to zero - every player needs the required amount of dominos
-		allPlayersReady = 0
-		for _, player := range current.GetPlayers() {
-			if !player.HasStartingDominos() {
-				chooseUnpickedDominos(current, player)
-				fmt.Println(showBreak())
-			} else {
-				allPlayersReady++
-			}
-		}
-	}
+	chooseUnpickedDominos(current)
+	fmt.Println(showBreak())
 }
 
-func chooseUnpickedDominos(current *game.Game, player *models.Player) bool {
+func chooseUnpickedDominos(current *game.Game) bool {
 	fmt.Print(showUnpickedDominos(current.GetTable()))
-	fmt.Printf("Player %d\n", player.ID)
-	return repeatUntilNoError(vaidatePickup, current, player.ID-1)
+	fmt.Printf("Player %s\n", current.GetCurrentPlayer().Name)
+	return repeatUntilNoError(vaidatePickup, current)
 }
 
-func chooseDominoToPlay(current *game.Game, player *models.Player) bool {
+func chooseDominoToPlay(current *game.Game) bool {
 	fmt.Println(showBoard(current.GetBoard()))
-	fmt.Println(showPlayerDominos(player))
+	fmt.Println(showPlayerDominos(current.GetCurrentPlayer()))
 
-	fmt.Printf("Player %d\n", player.ID)
-	return repeatUntilNoError(validatePlay, current, player.ID-1)
+	fmt.Printf("Player %s\n", current.GetCurrentPlayer().Name)
+	return repeatUntilNoError(validatePlay, current)
 }

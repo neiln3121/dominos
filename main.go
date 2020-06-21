@@ -29,10 +29,16 @@ func main() {
 
 	dominoGame := game.NewGame(*noOfPlayers)
 	fmt.Println("Preparing Game")
-	delivery.SelectInitialDominos(dominoGame)
+	err := delivery.SelectPlayerNames(dominoGame)
+	if err != nil {
+		log.Print("Error setting up player names")
+	}
+	for !dominoGame.IsSetup() {
+		delivery.SelectInitialDominos(dominoGame)
+	}
 
 	fmt.Println("Starting Game")
-	err := dominoGame.StartGame()
+	err = dominoGame.StartGame()
 	if err != nil {
 		log.Fatalf("Could not start the game: %v", err)
 	}
@@ -40,8 +46,8 @@ func main() {
 	for !dominoGame.IsFinished() {
 		delivery.SelectOption(dominoGame)
 	}
-	winnerID, winnerTotal := dominoGame.GetWinner()
-	fmt.Printf("WINNER: Player %d with %d score\n\n", winnerID, winnerTotal)
+	winner, winnerTotal := dominoGame.GetWinner()
+	fmt.Printf("WINNER: Player %s with %d score\n\n", winner, winnerTotal)
 }
 
 func exitGame() {

@@ -40,6 +40,22 @@ func (g *Game) StartGame() error {
 	return nil
 }
 
+func (g *Game) IsSetup() bool {
+	readyPlayers := 0
+	for _, player := range g.players {
+		if player.HasStartingDominos() {
+			readyPlayers++
+		}
+	}
+	if readyPlayers == len(g.players) {
+		return true
+	}
+
+	g.setNextPlayer()
+
+	return false
+}
+
 // IsFinished - checks whether anyone has one or if everyone can proceed
 func (g *Game) IsFinished() bool {
 	if g.GetCurrentPlayer().DominoCount() == 0 {
@@ -49,9 +65,8 @@ func (g *Game) IsFinished() bool {
 	}
 
 	g.setNextPlayer()
-
 	if g.table.AllPicked() {
-		// if current player can't proceed, end game
+		// if current player can't proceed, calculate winner and end game
 		if !g.GetCurrentPlayer().CanProceed(g.board.GetHead(), g.board.GetTail()) {
 			minDots := 48
 			for _, player := range g.players {
@@ -69,28 +84,28 @@ func (g *Game) IsFinished() bool {
 }
 
 // GetWinner - get winner details
-func (g *Game) GetWinner() (playerID int, playerTotal int) {
+func (g *Game) GetWinner() (playerName string, playerTotal int) {
 	if g.status == finished {
-		playerID = g.winner.ID
+		playerName = g.winner.Name
 		playerTotal = g.winner.TotalDots()
 	}
 	return
 }
 
 // PickDomino - pick a domino for a player from the table
-func (g *Game) PickDomino(playerIndex, dominoID int) error {
+func (g *Game) PickDomino(dominoID int) error {
 	index := dominoID - 1
 	domino, err := g.table.GetUnpickedDomino(index)
 	if err != nil {
 		return err
 	}
-	return g.players[playerIndex].AddDomino(domino)
+	return g.players[g.currentPlayerIndex].AddDomino(domino)
 }
 
 // PlayDomino - play a domino for a player on the board
-func (g *Game) PlayDomino(playerIndex, dominoID int, atHead bool) error {
+func (g *Game) PlayDomino(dominoID int, atHead bool) error {
 	index := dominoID - 1
-	domino, err := g.players[playerIndex].Get(index)
+	domino, err := g.players[g.currentPlayerIndex].Get(index)
 	if err != nil {
 		return err
 	}
@@ -98,7 +113,7 @@ func (g *Game) PlayDomino(playerIndex, dominoID int, atHead bool) error {
 		return err
 	}
 
-	return g.players[playerIndex].RemoveDomino(index)
+	return g.players[g.currentPlayerIndex].RemoveDomino(index)
 }
 
 // GetCurrentPlayer - get the player who is currently playing a round
@@ -132,8 +147,9 @@ func (g *Game) setNextPlayer() {
 // NewGame - new instance
 func NewGame(noOfPlayers int) *Game {
 	return &Game{
-		players: initPlayers(noOfPlayers),
-		table:   initTable(),
-		status:  setup,
+		players:            initPlayers(noOfPlayers),
+		table:              initTable(),
+		status:             setup,
+		currentPlayerIndex: noOfPlayers - 1,
 	}
 }
