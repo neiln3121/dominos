@@ -1,21 +1,34 @@
 # Dominos
 
-CLI for playing domino - the UI is a little rough and more a POC than production ready.
+CLI for playing a games of Dominos 
 
-Here are the rules of the game:
+Specify number of players as cmd argument, e.g.
+./dominos --players=4
 
-- It's played by a minimum of 2 players and a max of 4
+or use default of 2 players
 
-- 28 domino pieces are laid upside down randomly
+First enter name of each player
+Pick first 7 dominos anonymously from a table of 28
 
-- Each piece is divided in half and has two sets of dots in each half. Each set can have 0 to 6 dots.
+Each player takes turn to either play one of their dominos or pick up another domino from the table.
+When playing a domino, the player must first pick the domino, using the ID and then specify which end of the board to play it.
+The current board is displayed as a list of paired numbers, see example.
 
-- Each player picks 7 pieces.
+Current board:
+-------------
+<-[0|0]-[0|4]-[4|4]-[4|6]-[6|6]-[6|3]-[3|3]-[3|2]-[2|2]-[2|4]->
 
-- The player with the bigger double starts
+You can play either: 0 or 4
 
-- After the first piece, they go in turns placing pieces that match the same number of dots. If they don't have one, they pick another piece from the table.
+Player Bob
+Dominos: 1: [5|5] 2: [2|6] 3: [0|5] 
 
-- The game ends when a player runs out of pieces or there are no more pieces that match and no more pieces left on the table
+Pick a option
+1: Play
+2: Pick up
 
-- If both players still have pieces in the end, the winner is the one with the least total dots. These are calculated by adding the dots from all the pieces in the player's hand.
+Player Bob
+Play a domino
+-> 3
+Play at either the left(1) or right(2) or 0 to return
+-> 1

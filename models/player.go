@@ -33,6 +33,7 @@ func (p *Player) RemoveDomino(index int) error {
 	return nil
 }
 
+// GetHighestDouble - get the highest double held, used to work out starting player
 func (p *Player) GetHighestDouble() (highest, index int) {
 	highest = -1
 	for i, domino := range p.dominos {
@@ -47,6 +48,7 @@ func (p *Player) GetHighestDouble() (highest, index int) {
 	return
 }
 
+// CanProceed - calculates if the player can continue given two board ends
 func (p *Player) CanProceed(head, tail int) bool {
 	for _, domino := range p.GetDominos() {
 		if domino.half[0] == head || domino.half[0] == tail ||
@@ -57,6 +59,7 @@ func (p *Player) CanProceed(head, tail int) bool {
 	return false
 }
 
+// Get - get a player's domino at specified index
 func (p *Player) Get(index int) (*Domino, error) {
 	if !p.HasDomino(index) {
 		return nil, errors.New("Player does not have that domino")
@@ -65,18 +68,22 @@ func (p *Player) Get(index int) (*Domino, error) {
 	return p.dominos[index], nil
 }
 
+// GetDominos - get all the player's dominos
 func (p *Player) GetDominos() []*Domino {
 	return p.dominos
 }
 
+// HasStartingDominos - check if player has enough dominos to start the game
 func (p *Player) HasStartingDominos() bool {
 	return p.DominoCount() == STARTING_DOMINOS
 }
 
+// DominoCount - number of dominos the player currently has
 func (p *Player) DominoCount() int {
 	return len(p.dominos)
 }
 
+// TotalDots - total dots on each domino held by the player, used to calculate the winner
 func (p *Player) TotalDots() int {
 	sum := 0
 	for _, domino := range p.dominos {
@@ -85,6 +92,7 @@ func (p *Player) TotalDots() int {
 	return sum
 }
 
+// HasDomino
 func (p *Player) HasDomino(index int) bool {
 	if index < 0 || index >= p.DominoCount() {
 		return false
