@@ -9,14 +9,22 @@ const DOTS int = 6
 
 // Domino - stores the game play piece
 type Domino struct {
-	Half          [2]int
 	IsPicked      bool
-	PlayedFlipped bool
+	half          [2]int
+	playedFlipped bool
+}
+
+// GetDots - get the dots in order according to how domino was played
+func (d *Domino) GetDots() (int, int) {
+	if d.playedFlipped {
+		return d.half[1], d.half[0]
+	}
+	return d.half[0], d.half[1]
 }
 
 // Total - total number of dots on a domino
 func (d *Domino) Total() int {
-	return d.Half[0] + d.Half[1]
+	return d.half[0] + d.half[1]
 }
 
 // Set - sets the number of dots on each domino half
@@ -25,8 +33,8 @@ func (d *Domino) Set(head, tail int) error {
 		return errors.New("Invalid value for domino half")
 	}
 
-	d.Half[0] = head
-	d.Half[1] = tail
+	d.half[0] = head
+	d.half[1] = tail
 
 	return nil
 }

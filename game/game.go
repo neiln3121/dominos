@@ -111,11 +111,6 @@ func (g *Game) GetPlayers() []*models.Player {
 	return g.players
 }
 
-// GetNumberOfPlayers - get the number of players in the game
-func (g *Game) GetNumberOfPlayers() int {
-	return len(g.players)
-}
-
 // GetTable - get the table to pick dominos from
 func (g *Game) GetTable() *models.Table {
 	return g.table

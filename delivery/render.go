@@ -25,14 +25,12 @@ func showPlayerDominos(p *models.Player) string {
 }
 
 func renderDomino(d *models.Domino) string {
-	if d.PlayedFlipped {
-		return fmt.Sprintf("[%d|%d]", d.Half[1], d.Half[0])
-	}
-	return fmt.Sprintf("[%d|%d]", d.Half[0], d.Half[1])
+	half1, half2 := d.GetDots()
+	return fmt.Sprintf("[%d|%d]", half1, half2)
 }
 
 func showBoard(b *models.Board) string {
-	str := "Current board:\n<-"
+	str := "Current board:\n-------------\n<-"
 	for _, domino := range b.GetPlayedDominos() {
 		str += fmt.Sprintf("%s-", renderDomino(domino))
 	}

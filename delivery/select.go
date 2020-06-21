@@ -35,7 +35,7 @@ func SelectOption(current *game.Game) error {
 			success = chooseUnpickedDominos(current, player)
 		}
 	}
-	fmt.Println("Success!")
+	fmt.Println("\nSuccess!")
 	fmt.Println(showBreak())
 	return nil
 }
@@ -44,13 +44,12 @@ func SelectOption(current *game.Game) error {
 func SelectInitialDominos(current *game.Game) {
 	var allPlayersReady int
 	// Keep going until all players have the right amount of dominos
-	for allPlayersReady < current.GetNumberOfPlayers() {
+	for allPlayersReady < len(current.GetPlayers()) {
 		// Set back to zero - every player needs the required amount of dominos
 		allPlayersReady = 0
 		for _, player := range current.GetPlayers() {
 			if !player.HasStartingDominos() {
 				chooseUnpickedDominos(current, player)
-				fmt.Println(showPlayerDominos(player))
 				fmt.Println(showBreak())
 			} else {
 				allPlayersReady++
@@ -62,7 +61,7 @@ func SelectInitialDominos(current *game.Game) {
 func chooseUnpickedDominos(current *game.Game, player *models.Player) bool {
 	fmt.Print(showUnpickedDominos(current.GetTable()))
 	fmt.Printf("Player %d\n", player.ID)
-	return repeatUntilNoError(choosePickup, current, player.ID-1)
+	return repeatUntilNoError(vaidatePickup, current, player.ID-1)
 }
 
 func chooseDominoToPlay(current *game.Game, player *models.Player) bool {
@@ -70,5 +69,5 @@ func chooseDominoToPlay(current *game.Game, player *models.Player) bool {
 	fmt.Println(showPlayerDominos(player))
 
 	fmt.Printf("Player %d\n", player.ID)
-	return repeatUntilNoError(choosePlay, current, player.ID-1)
+	return repeatUntilNoError(validatePlay, current, player.ID-1)
 }

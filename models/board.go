@@ -50,32 +50,35 @@ func (b *Board) GetTail() int {
 }
 
 func (b *Board) checkDominoPlayableHead(domino *Domino) int {
-	if domino.Half[0] == b.head {
-		domino.PlayedFlipped = true
-		return domino.Half[1]
-	} else if domino.Half[1] == b.head {
-		return domino.Half[0]
+	if domino.half[0] == b.head {
+		domino.playedFlipped = true
+		return domino.half[1]
+	} else if domino.half[1] == b.head {
+		return domino.half[0]
 	}
 	return -1
 }
 
 func (b *Board) checkDominoPlayableTail(domino *Domino) int {
-	if domino.Half[0] == b.tail {
-		return domino.Half[1]
-	} else if domino.Half[1] == b.tail {
-		domino.PlayedFlipped = true
-		return domino.Half[0]
+	if domino.half[0] == b.tail {
+		return domino.half[1]
+	} else if domino.half[1] == b.tail {
+		domino.playedFlipped = true
+		return domino.half[0]
 	}
 	return -1
 }
 
 // NewBoard - new instance
-func NewBoard(first *Domino) *Board {
+func NewBoard(first *Domino) (*Board, error) {
+	if first == nil {
+		return nil, errors.New("Not a valid domino")
+	}
 	var board Board
 	board.played = []*Domino{first}
 
-	board.head = first.Half[0]
-	board.tail = first.Half[1]
+	board.head = first.half[0]
+	board.tail = first.half[1]
 
-	return &board
+	return &board, nil
 }

@@ -15,6 +15,9 @@ type Player struct {
 
 // AddDomino - add a domino to a player
 func (p *Player) AddDomino(domino *Domino) error {
+	if domino == nil {
+		return errors.New("Not a valid domino")
+	}
 	p.dominos = append(p.dominos, domino)
 
 	return nil
@@ -34,9 +37,9 @@ func (p *Player) GetHighestDouble() (highest, index int) {
 	highest = -1
 	for i, domino := range p.dominos {
 		// Must be a double
-		if domino.Half[0] == domino.Half[1] {
-			if domino.Half[0] > highest {
-				highest = domino.Half[0]
+		if domino.half[0] == domino.half[1] {
+			if domino.half[0] > highest {
+				highest = domino.half[0]
 				index = i
 			}
 		}
@@ -46,8 +49,8 @@ func (p *Player) GetHighestDouble() (highest, index int) {
 
 func (p *Player) CanProceed(head, tail int) bool {
 	for _, domino := range p.GetDominos() {
-		if domino.Half[0] == head || domino.Half[0] == tail ||
-			domino.Half[1] == head || domino.Half[1] == tail {
+		if domino.half[0] == head || domino.half[0] == tail ||
+			domino.half[1] == head || domino.half[1] == tail {
 			return true
 		}
 	}

@@ -46,6 +46,6 @@ func initBoard(players []*models.Player) (board *models.Board, firstPlayerIndex 
 		return
 	}
 	players[firstPlayerIndex].RemoveDomino(firstPlayerDominoIndex)
-	board = models.NewBoard(highestDomino)
+	board, err = models.NewBoard(highestDomino)
 	return
 }

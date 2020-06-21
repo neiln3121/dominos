@@ -25,7 +25,7 @@ func repeatUntilNoError(fn gameFunc, current *game.Game, playerIndex int) bool {
 	return result
 }
 
-func choosePickup(current *game.Game, playerIndex int) (bool, error) {
+func vaidatePickup(current *game.Game, playerIndex int) (bool, error) {
 	var picked int
 
 	fmt.Printf("Pick a domino or 0 to return\n-> ")
@@ -44,7 +44,7 @@ func choosePickup(current *game.Game, playerIndex int) (bool, error) {
 	return true, nil
 }
 
-func choosePlay(current *game.Game, playerIndex int) (bool, error) {
+func validatePlay(current *game.Game, playerIndex int) (bool, error) {
 	var picked int
 	var end int
 

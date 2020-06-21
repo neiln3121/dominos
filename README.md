@@ -19,4 +19,3 @@ Here are the rules of the game:
 - The game ends when a player runs out of pieces or there are no more pieces that match and no more pieces left on the table
 
 - If both players still have pieces in the end, the winner is the one with the least total dots. These are calculated by adding the dots from all the pieces in the player's hand.
-
