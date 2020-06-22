@@ -40,23 +40,14 @@ func (g *Game) StartGame() error {
 	return nil
 }
 
+// IsSetup - checks whether each player has enough dominos
 func (g *Game) IsSetup() bool {
-	readyPlayers := 0
-	for _, player := range g.players {
-		if player.HasStartingDominos() {
-			readyPlayers++
-		}
-	}
-	if readyPlayers == len(g.players) {
-		return true
-	}
-
 	g.setNextPlayer()
 
-	return false
+	return g.GetCurrentPlayer().HasStartingDominos()
 }
 
-// IsFinished - checks whether anyone has one or if everyone can proceed
+// IsFinished - checks whether anyone has won or if everyone is able to proceed
 func (g *Game) IsFinished() bool {
 	if g.GetCurrentPlayer().DominoCount() == 0 {
 		g.winner = g.GetCurrentPlayer()

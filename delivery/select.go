@@ -54,7 +54,14 @@ func SelectPlayerNames(current *game.Game) error {
 
 // SelectInitialDominos - Set up all players by picking up their initial dominos
 func SelectInitialDominos(current *game.Game) {
-	chooseUnpickedDominos(current)
+	var success bool
+
+	for !success {
+		success = chooseUnpickedDominos(current)
+		if !success {
+			fmt.Print("You must pick a domino during setup!\n\n")
+		}
+	}
 	fmt.Println(showBreak())
 }
 
